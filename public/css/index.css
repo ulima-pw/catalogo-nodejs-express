@@ -1,0 +1,26 @@
+h1 {
+    font-family: 'Potta One', cursive;
+}
+h3 {
+    background-color:  rgb(26, 134, 17);
+}
+#menu {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.menu_item {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#seccion_dos_columnas {
+    margin-top: 30px;
+}
+
+
+img {
+    width: 100%;
+}
+
+
+
