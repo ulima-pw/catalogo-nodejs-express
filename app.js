@@ -60,13 +60,21 @@ app.post('/login', (req, res) => {
 
     if (username == "pw" && password == "123") {
         // Login correcto
-        res.redirect('/catalogo.html')
+        res.redirect('/catalogo')
     } else {
         // Login incorrecto
         res.render('login', {
             error : true
         })
     }
+})
+
+// endpoint mostrar la lista de videojuegos
+app.get('/catalogo', (req, res)=>{
+    const listaVideojuegos = data.videojuegos;
+    res.render('catalogo', {
+        videojuegos : listaVideojuegos
+    });
 })
 
 

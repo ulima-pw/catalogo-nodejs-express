@@ -1,0 +1,33 @@
+<html>
+    <%- include('includes/header') %>
+    <body class="container">
+
+        <%- include('includes/upper') %>
+
+        <h1>Catálogo</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id.</th>
+                    <th>Nombre</th>
+                    <th>Consolas</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% videojuegos.forEach( (vid) => { %>
+                    <tr>
+                        <td><%= vid.id %></td>
+                        <td><%= vid.nombre %></td>
+                        <td><%= vid.consolas %></td>
+                        <td><%= vid.precio %></td>
+                    </tr>
+                <% } ) %>
+            </tbody>
+        </table>
+        <a href="index.html">Regresar</a>
+
+        <%- include('includes/footer') %>
+
+    </body>
+</html>

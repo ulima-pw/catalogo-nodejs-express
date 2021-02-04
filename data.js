@@ -19,6 +19,32 @@ const data = {
         { id : 2, nombre : "Venezuela" },
         { id : 3, nombre : "Ecuador" },
         { id : 4, nombre : "Chile" }
+    ],
+    videojuegos : [
+        {
+            id : 1,
+            nombre : "Cyberpunk 2077",
+            consolas : "PC",
+            precio : 65
+        },
+        {
+            id : 2, 
+            nombre : "Fifa 21",
+            consolas : "PS4/PS5",
+            precio : 30
+        },
+        {
+            id : 3,
+            nombre : "Civilization 6",
+            consolas : "PC",
+            precio : 20
+        },
+        {
+            id : 4,
+            nombre : "Demons souls",
+            consolas : "PS5",
+            precio : 40
+        }
     ]
 }
 

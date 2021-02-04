@@ -1,5 +1,7 @@
 <html>
-    <body>
+    <%- include('includes/header') %>
+    <body class="container">
+        <h1>Login</h1>
         <form method="POST" action="/login">
             <div>
                 <label>Username:</label>
@@ -9,7 +11,7 @@
                 <label>Password:</label>
                 <input type="password" name="password"/>
             </div>
-            <button type="submit">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
         <% if (error == true) { %>
             <div>
