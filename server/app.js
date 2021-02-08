@@ -77,6 +77,35 @@ app.get('/catalogo', (req, res)=>{
     });
 })
 
+// API REST
+// Recurso: Videojuego
+// 1. GET: Obtener un videojuego
+app.get('/videojuego/:id', (req, res) => {
+    // Buscar el videojuego con el id enviado y devolverlo
+    const vjId = req.params.id;
+    const videojuegos = data.videojuegos;
+    for (var vj of videojuegos) {
+        if (vj.id == vjId) {
+            // Encontre el vj y debo devolverlo
+            const objRes = {
+                data : {
+                    id : vj.id,
+                    nombre : vj.nombre,
+                    precio : vj.precio
+                },
+                msg : ""
+            }
+            res.json(objRes);
+            return;
+        }
+    }
+    // Devolver algun mensaje de error
+    const objResError = {
+        msg : "No existe un recurso con ese id"
+    }
+    res.status(400).json(objResError);
+})
+
 
 app.listen(PORT, () => {
     console.log(`Servidor iniciado en puerto ${PORT}`);
