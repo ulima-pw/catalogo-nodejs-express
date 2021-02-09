@@ -8,6 +8,7 @@ const PORT = 3000;
 
 
 app.use(express.static('public'));
+app.use(bodyParser.json()) // para deserializacion automatica
 app.use(bodyParser.urlencoded({
     extended : true
 }))
@@ -105,6 +106,44 @@ app.get('/videojuego/:id', (req, res) => {
     }
     res.status(400).json(objResError);
 })
+
+// 2. POST: Registrar un videojuego
+// {
+//     "nombre" : "",
+//     "consolas" : "",
+//     "precio" : 12
+// }
+app.post('/videojuego', (req, res) => {
+    const vj = req.body;
+    if (vj.nombre == undefined || 
+        vj.consolas == undefined || 
+        vj.precio == undefined) {
+        const objError = {
+            msg : "Debe ingresar todos los valores de videojuego"
+        }
+        res.status(400).json(objError)
+        return;
+    }
+
+    const vjNuevo = {
+        id : data.videojuegos.length + 1,
+        nombre : vj.nombre,
+        consolas : vj.consolas,
+        precio : vj.precio
+    }
+    data.videojuegos.push(vjNuevo);
+    const objRes = {
+        data : vjNuevo,
+        msg : ""
+    }
+    res.json(objRes);
+})
+
+// 3. PUT: Modificar un videojuego existente
+
+// 4. DELETE: Eliminar un videojuego existente
+
+// 5. GET: Devolver una lista de videojuegos
 
 
 app.listen(PORT, () => {
