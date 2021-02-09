@@ -140,6 +140,37 @@ app.post('/videojuego', (req, res) => {
 })
 
 // 3. PUT: Modificar un videojuego existente
+// {
+//     "id" : 2,
+//     "nombre" : "",
+//     "consolas" : "",
+//     "precio" : 12
+// }
+app.put('/videojuego', (req, res)=>{
+    const vj = req.body;
+    const vjId = vj.id;
+    for (var i=0; i< data.videojuegos.length; i++) {
+        const vjBuscado = data.videojuegos[i]
+        if (vjBuscado.id == vjId) {
+            // Encontramos el vj
+            vjBuscado.nombre = vj.nombre;
+            vjBuscado.consolas = vj.consolas;
+            vjBuscado.precio = vj.precio;
+
+            const objRes = {
+                data : vjBuscado,
+                msg : ""
+            }
+            res.json(objRes)
+            return;
+        }
+    }
+    // No encontramos el vj
+    const objError = {
+        msg : "No se encontro videojuego con el id enviado"
+    }
+    res.status(400).json(objError);
+})
 
 // 4. DELETE: Eliminar un videojuego existente
 
