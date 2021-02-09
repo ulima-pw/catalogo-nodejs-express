@@ -173,8 +173,30 @@ app.put('/videojuego', (req, res)=>{
 })
 
 // 4. DELETE: Eliminar un videojuego existente
+app.delete('/videojuego/:id', (req, res) => {
+    const vjId = req.params.id;
+    for (var i=0; i < data.videojuegos.length; i++) {
+        const vj = data.videojuegos[i];
+        if (vj.id == vjId) {
+            // Lo encontramos
+            data.videojuegos.splice(i, 1);
+            res.json({msg : ""});
+            return;
+        }
+    }
+    // No encontramos el id
+    res.status(400).json({
+        msg : "No se pudo borrar dado que no se encontro el id"
+    })
+})
 
 // 5. GET: Devolver una lista de videojuegos
+app.get('/videojuego', (req, res) => {
+    res.send({
+        data : data.videojuegos,
+        msg : ""
+    })
+})
 
 
 app.listen(PORT, () => {
