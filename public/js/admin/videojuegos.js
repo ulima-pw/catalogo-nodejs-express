@@ -1,5 +1,23 @@
 const URL_BASE = "http://localhost:3000";
 
+const eliminarVJOnclick = (event) => {
+    const vjid = event.target.getAttribute("vjid");
+    fetch(`${URL_BASE}/videojuego/${vjid}`, {
+        method : "DELETE"
+    }).then((resp)=>{
+        resp.json().then((data)=>{
+            if (data.msg == "") {
+                // TODO OK
+                cargarVideojuegos();
+            }else {
+                console.error(data.msg);
+            }
+        })
+    }).catch((error)=>{
+        console.error(error);
+    })
+}
+
 const armarFila = (videojuego) => {
     const tr = document.createElement('tr');
     const tdId = document.createElement('td');
@@ -14,14 +32,16 @@ const armarFila = (videojuego) => {
     tdPrecio.innerHTML = videojuego.precio;
 
     butModificar = document.createElement('button')
-    butModificar.setAttribute('class', 'btn btn-primary btn-sm disabled');
+    butModificar.setAttribute('class', 'btn btn-link btn-sm');
     butModificar.setAttribute('type', 'button');
-    butModificar.innerHTML = "M";
+    butModificar.innerHTML = "Modificar";
 
     butEliminar = document.createElement('button')
-    butEliminar.setAttribute('class', 'btn btn-primary btn-sm');
+    butEliminar.setAttribute('class', 'btn btn-link btn-sm');
     butEliminar.setAttribute('type', 'button');
-    butEliminar.innerHTML = "E";
+    butEliminar.innerHTML = "Eliminar";
+    butEliminar.setAttribute("vjid", videojuego.id);
+    butEliminar.addEventListener('click', eliminarVJOnclick);
 
     tdAcciones.appendChild(butModificar);
     tdAcciones.appendChild(butEliminar);
@@ -40,8 +60,8 @@ const cargarVideojuegos = () => {
         method : "GET"
     }).then( (res) => {
         res.json().then((data)=> {
-            console.log(data);
             if (data.msg == "") {
+                document.getElementById('videojuegos').innerHTML = "";
                 for (var vj of data.data) {
                     const tr = armarFila(vj);
                     document.getElementById('videojuegos').appendChild(tr);
