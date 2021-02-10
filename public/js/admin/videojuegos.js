@@ -71,7 +71,14 @@ const cargarVideojuegos = () => {
     })
 }
 
+// Sea global
+var modal;
+
 const main = () => {
+    modal = new bootstrap.Modal(document.getElementById('myModal'));
+    document.getElementById('butNuevo').addEventListener("click", () => {        
+        modal.toggle();
+    });
     cargarVideojuegos();
 }
 

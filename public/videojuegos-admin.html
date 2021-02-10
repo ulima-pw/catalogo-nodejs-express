@@ -6,7 +6,7 @@
     </head>
     <body class="container">
         <h1>Mantenimiento de Videojuegos</h1>
-        <button class="btn btn-primary" type="button">Nuevo</button>
+        <button id="butNuevo" class="btn btn-primary" type="button">Nuevo</button>
         <table class="table">
             <thead>
                 <tr>
@@ -22,4 +22,34 @@
         </table>
         <script src="./js/admin/videojuegos.js"></script>
     </body>
+    <div id="myModal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo / Editar Videojuego</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div>
+                            <label class="form-label"> Ingrese nombre</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+                        <div>
+                            <label class="form-label"> Ingrese consolas</label>
+                            <input type="text" class="form-control"/>
+                        </div>
+                        <div>
+                            <label class="form-label"> Ingrese precio</label>
+                            <input type="number" class="form-control"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </html>
