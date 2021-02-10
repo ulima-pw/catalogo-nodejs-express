@@ -115,6 +115,7 @@ app.get('/videojuego/:id', (req, res) => {
 // }
 app.post('/videojuego', (req, res) => {
     const vj = req.body;
+    
     if (vj.nombre == undefined || 
         vj.consolas == undefined || 
         vj.precio == undefined) {

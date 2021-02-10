@@ -71,14 +71,57 @@ const cargarVideojuegos = () => {
     })
 }
 
+const limpiarFormulario = () => {
+    document.getElementById('vj-nombre').value = "";
+    document.getElementById('vj-consolas').value = "";
+    document.getElementById('vj-precio').value = "";
+}
+
+const butGuardarOnClick = () => {
+    const vjNombre = document.getElementById('vj-nombre').value;
+    const vjConsolas = document.getElementById('vj-consolas').value;
+    const vjPrecio = document.getElementById('vj-precio').value;
+
+    const body = {
+        nombre : vjNombre,
+        consolas : vjConsolas,
+        precio : vjPrecio
+    }
+
+    fetch(`${URL_BASE}/videojuego`, {
+        method : "POST",
+        body : JSON.stringify(body),
+        headers : {
+            "Content-Type" : "application/json"
+        }
+    }).then((resp) => {
+        resp.json().then((data)=> {
+            if (data.msg == "") {
+                // Todo correcto
+                console.log(data.data);
+                modal.hide();
+                limpiarFormulario();
+                cargarVideojuegos();
+            }else {
+                // Error
+                console.error(data.msg);
+            }
+        })
+    })
+}
+
 // Sea global
 var modal;
 
 const main = () => {
     modal = new bootstrap.Modal(document.getElementById('myModal'));
+
     document.getElementById('butNuevo').addEventListener("click", () => {        
         modal.toggle();
     });
+
+    document.getElementById('butGuardar').addEventListener('click', butGuardarOnClick);
+
     cargarVideojuegos();
 }
 
