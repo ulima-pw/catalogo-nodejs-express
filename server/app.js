@@ -92,6 +92,7 @@ app.get('/videojuego/:id', (req, res) => {
                 data : {
                     id : vj.id,
                     nombre : vj.nombre,
+                    consolas : vj.consolas,
                     precio : vj.precio
                 },
                 msg : ""

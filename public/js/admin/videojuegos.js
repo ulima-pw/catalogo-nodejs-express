@@ -1,5 +1,25 @@
 const URL_BASE = "http://localhost:3000";
 
+const modificarVJOnClick = (event) => {
+    const vjid = event.target.getAttribute("vjid");
+    videojuegoIdGlobal = vjid;
+    modal.toggle();
+    fetch(`${URL_BASE}/videojuego/${vjid}`, {
+        method : 'GET'
+    }).then((resp)=> {
+        resp.json().then((data) => {
+            if (data.msg == "") {
+                document.getElementById("vj-nombre").value = data.data.nombre;
+                document.getElementById("vj-consolas").value = data.data.consolas;
+                document.getElementById("vj-precio").value = data.data.precio;
+            }
+        });
+    }).catch((error) => {
+        console.error(error);
+    })
+
+};
+
 const eliminarVJOnclick = (event) => {
     const vjid = event.target.getAttribute("vjid");
     fetch(`${URL_BASE}/videojuego/${vjid}`, {
@@ -35,6 +55,8 @@ const armarFila = (videojuego) => {
     butModificar.setAttribute('class', 'btn btn-link btn-sm');
     butModificar.setAttribute('type', 'button');
     butModificar.innerHTML = "Modificar";
+    butModificar.setAttribute("vjid", videojuego.id);
+    butModificar.addEventListener('click', modificarVJOnClick);
 
     butEliminar = document.createElement('button')
     butEliminar.setAttribute('class', 'btn btn-link btn-sm');
@@ -82,14 +104,31 @@ const butGuardarOnClick = () => {
     const vjConsolas = document.getElementById('vj-consolas').value;
     const vjPrecio = document.getElementById('vj-precio').value;
 
-    const body = {
-        nombre : vjNombre,
-        consolas : vjConsolas,
-        precio : vjPrecio
+    var body;
+    var tipoPeticion;
+
+    if (videojuegoIdGlobal == null) {
+        // Registro de un nuevo recurso
+        body = {
+            nombre : vjNombre,
+            consolas : vjConsolas,
+            precio : vjPrecio
+        }
+        tipoPeticion = 'POST';
+    }else {
+        // Modificacion de un recurso existente
+        body = {
+            id : videojuegoIdGlobal,
+            nombre : vjNombre,
+            consolas : vjConsolas,
+            precio : vjPrecio
+        }
+        tipoPeticion = 'PUT';
     }
 
+
     fetch(`${URL_BASE}/videojuego`, {
-        method : "POST",
+        method : tipoPeticion,
         body : JSON.stringify(body),
         headers : {
             "Content-Type" : "application/json"
@@ -102,6 +141,7 @@ const butGuardarOnClick = () => {
                 modal.hide();
                 limpiarFormulario();
                 cargarVideojuegos();
+                videojuegoIdGlobal = null;
             }else {
                 // Error
                 console.error(data.msg);
@@ -112,6 +152,7 @@ const butGuardarOnClick = () => {
 
 // Sea global
 var modal;
+var videojuegoIdGlobal = null;
 
 const main = () => {
     modal = new bootstrap.Modal(document.getElementById('myModal'));
