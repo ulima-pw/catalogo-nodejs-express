@@ -1,0 +1,15 @@
+@startuml catalogo
+class Videojuego {
+    long id
+    String nombre
+    float precio
+}
+class Consola {
+    long id
+    String nombre
+}
+class Categoria {
+    long id
+    String nombre
+}
+@enduml

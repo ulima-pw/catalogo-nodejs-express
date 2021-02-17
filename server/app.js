@@ -5,7 +5,7 @@ const data = require('./data');
 const app = express();
 const PORT = 3000;
 
-
+const db = require('./dao/models')
 
 app.use(express.static('public'));
 app.use(bodyParser.json()) // para deserializacion automatica
@@ -128,17 +128,22 @@ app.post('/videojuego', (req, res) => {
     }
 
     const vjNuevo = {
-        id : data.videojuegos.length + 1,
         nombre : vj.nombre,
-        consolas : vj.consolas,
-        precio : vj.precio
+        precio : vj.precio,
+        createdAt : new Date(),
+        updatedAt : new Date()
     }
-    data.videojuegos.push(vjNuevo);
-    const objRes = {
-        data : vjNuevo,
-        msg : ""
-    }
-    res.json(objRes);
+
+    // guardar en bd vjNuevo
+    db.Videojuego.create(vjNuevo).then((resp) => {
+        const objRes = {
+            data : resp,
+            msg : ""
+        }
+        res.json(objRes);
+    });
+
+    
 })
 
 // 3. PUT: Modificar un videojuego existente
@@ -151,27 +156,30 @@ app.post('/videojuego', (req, res) => {
 app.put('/videojuego', (req, res)=>{
     const vj = req.body;
     const vjId = vj.id;
-    for (var i=0; i< data.videojuegos.length; i++) {
-        const vjBuscado = data.videojuegos[i]
-        if (vjBuscado.id == vjId) {
-            // Encontramos el vj
-            vjBuscado.nombre = vj.nombre;
-            vjBuscado.consolas = vj.consolas;
-            vjBuscado.precio = vj.precio;
 
+    // Update en la base de datos
+    db.Videojuego.update({
+        nombre : vj.nombre,
+        precio : vj.precio,
+        updatedAt : new Date()
+    }, {
+        where : {
+            id : vjId
+        }
+    }).then((registro) => {
+        if (registro != null) {
             const objRes = {
-                data : vjBuscado,
+                data : registro,
                 msg : ""
             }
             res.json(objRes)
-            return;
+        } else {
+            const objError = {
+                msg : "No se encontro videojuego con el id enviado"
+            }
+            res.status(400).json(objError);
         }
-    }
-    // No encontramos el vj
-    const objError = {
-        msg : "No se encontro videojuego con el id enviado"
-    }
-    res.status(400).json(objError);
+    });
 })
 
 // 4. DELETE: Eliminar un videojuego existente
@@ -194,10 +202,15 @@ app.delete('/videojuego/:id', (req, res) => {
 
 // 5. GET: Devolver una lista de videojuegos
 app.get('/videojuego', (req, res) => {
-    res.send({
-        data : data.videojuegos,
-        msg : ""
-    })
+    // Consulta a la bd
+
+    db.Videojuego.findAll().then((usuarios)=>{
+        res.send({
+            data : usuarios,
+            msg : ""
+        })
+    });
+
 })
 
 
