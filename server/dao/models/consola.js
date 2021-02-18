@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Videojuego extends Model {
+  class Consola extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,29 +13,23 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  Videojuego.init({
-    nombre: DataTypes.STRING,
-    precio: DataTypes.FLOAT,
-    categoriaId: DataTypes.INTEGER
+  Consola.init({
+    nombre: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Videojuego',
+    modelName: 'Consola',
     freezeTableName : true
   });
 
-  Videojuego.associate = (models) => {
-    Videojuego.belongsTo(models.Categoria, {
-      foreignKey : 'id'
-    });
-
+  Consola.associate = (models) => {
     // Muchos a muchos
-    // Videojuego --- Consola
-    Videojuego.belongsToMany(models.Consola, {
+    // Consola --- Videojuego
+    Consola.belongsToMany(models.Videojuego, {
       through : 'Videojuego_Consola',
-      as : 'consolas',
-      foreignKey : 'videojuegoId'
+      as : 'videojuegos',
+      foreignKey : 'consolaId'
     });
   }
 
-  return Videojuego;
+  return Consola;
 };
