@@ -4,28 +4,31 @@ const videojuegoAPI = {
     get : (req, res) => {
         // Buscar el videojuego con el id enviado y devolverlo
         const vjId = req.params.id;
-        const videojuegos = data.videojuegos;
-        for (var vj of videojuegos) {
-            if (vj.id == vjId) {
-                // Encontre el vj y debo devolverlo
+
+        db.Videojuego.findAll({
+            where : {
+                id : vjId
+            }
+        }).then((videojuegos)=>{
+            if (videojuegos[0] != null) {
                 const objRes = {
                     data : {
-                        id : vj.id,
-                        nombre : vj.nombre,
-                        consolas : vj.consolas,
-                        precio : vj.precio
+                        id : videojuegos[0].id,
+                        nombre : videojuegos[0].nombre,
+                        consolas : "-",
+                        precio : videojuegos[0].precio
                     },
                     msg : ""
                 }
                 res.json(objRes);
-                return;
+            }else {
+                // Devolver algun mensaje de error
+                const objResError = {
+                    msg : "No existe un recurso con ese id"
+                }
+                res.status(400).json(objResError);
             }
-        }
-        // Devolver algun mensaje de error
-        const objResError = {
-            msg : "No existe un recurso con ese id"
-        }
-        res.status(400).json(objResError);
+        });
     },
 
     post : (req, res) => {
@@ -91,19 +94,14 @@ const videojuegoAPI = {
 
     delete : (req, res) => {
         const vjId = req.params.id;
-        for (var i=0; i < data.videojuegos.length; i++) {
-            const vj = data.videojuegos[i];
-            if (vj.id == vjId) {
-                // Lo encontramos
-                data.videojuegos.splice(i, 1);
-                res.json({msg : ""});
-                return;
-            }
-        }
-        // No encontramos el id
-        res.status(400).json({
-            msg : "No se pudo borrar dado que no se encontro el id"
-        })
+
+        db.Videojuego.destroy({
+           where : {
+               id : vjId
+           } 
+        }).then((any) => {
+            res.json({msg : ""});
+        });
     },
 
     getAll : (req, res) => {

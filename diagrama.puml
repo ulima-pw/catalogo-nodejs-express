@@ -3,6 +3,7 @@ class Videojuego {
     long id
     String nombre
     float precio
+    int categoriaId_FK
 }
 class Consola {
     long id
@@ -11,5 +12,8 @@ class Consola {
 class Categoria {
     long id
     String nombre
+    int estado
 }
+
+Categoria "1" --- "*" Videojuego
 @enduml
