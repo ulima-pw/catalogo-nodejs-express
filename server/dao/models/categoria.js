@@ -19,14 +19,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Categoria',
+    freezeTableName : true
   });
 
   Categoria.associate = (models) => {
-    Categoria.belongsToMany(models.Videojuego, {
-      through : 'Videojuegos',
-      as : 'videojuegos',
+    Categoria.hasMany(models.Videojuego,{
       foreignKey : 'categoriaId'
-    });
+    })
   }
 
   return Categoria;
