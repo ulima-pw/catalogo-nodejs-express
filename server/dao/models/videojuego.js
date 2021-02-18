@@ -20,7 +20,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Videojuego',
+    freezeTableName : true
   });
+
+  Videojuego.associate = (models) => {
+    Videojuego.belongsTo(models.Categoria, {
+      foreignKey : 'id'
+    });
+  }
 
   return Videojuego;
 };
