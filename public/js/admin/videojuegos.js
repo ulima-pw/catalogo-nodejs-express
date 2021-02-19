@@ -93,6 +93,36 @@ const cargarVideojuegos = () => {
     })
 }
 
+const cargarCategorias = async () => {
+    //1. Consulta al API Rest (/categoria)
+    const resp = await fetch(`${URL_BASE}/categoria`, {method:'GET'});
+    const data = await resp.json();
+
+    //2. Crear option que se agreguen al select
+    const select = document.getElementById('vj-categoria');
+    for (var categoria of data.data) {
+        const option = document.createElement('option');
+        option.setAttribute('value', categoria.id);
+        option.innerHTML = categoria.nombre;
+        select.appendChild(option);
+    }
+};
+
+const cargarConsolas = async () => {
+    //1. Consulta al API Rest (/consola)
+    const resp = await fetch(`${URL_BASE}/consola`, {method:'GET'});
+    const data = await resp.json();
+
+    //2. Crear option que se agreguen al select
+    const select = document.getElementById('vj-consolas');
+    for (var consola of data.data) {
+        const option = document.createElement('option');
+        option.setAttribute('value', consola.id);
+        option.innerHTML = consola.nombre;
+        select.appendChild(option);
+    }
+};
+
 const limpiarFormulario = () => {
     document.getElementById('vj-nombre').value = "";
     document.getElementById('vj-consolas').value = "";
@@ -164,6 +194,8 @@ const main = () => {
     document.getElementById('butGuardar').addEventListener('click', butGuardarOnClick);
 
     cargarVideojuegos();
+    cargarCategorias();
+    cargarConsolas();
 }
 
 window.addEventListener("load", main);

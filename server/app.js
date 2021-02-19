@@ -6,6 +6,8 @@ const app = express();
 const PORT = 3000;
 
 const videojuegoAPI = require('./api/videojuego')
+const categoriaAPI = require('./api/categoria')
+const consolaAPI = require('./api/consola')
 
 
 app.use(express.static('public'));
@@ -106,6 +108,12 @@ app.delete('/videojuego/:id', videojuegoAPI.delete);
 
 // 5. GET: Devolver una lista de videojuegos
 app.get('/videojuego', videojuegoAPI.getAll);
+
+// RECURSO: categoria
+app.get('/categoria', categoriaAPI.getAll);
+
+// RECURSO: consola
+app.get('/consola', consolaAPI.getAll);
 
 
 app.listen(PORT, () => {
