@@ -48,8 +48,20 @@ const armarFila = (videojuego) => {
 
     tdId.innerHTML = videojuego.id;
     tdNombre.innerHTML = videojuego.nombre;
-    tdConsolas.innerHTML = videojuego.consolas;
     tdPrecio.innerHTML = videojuego.precio;
+
+    // Mostrar consolas
+    var consolasStr = "";
+    for (var c of videojuego.consolas) {
+        if (consolasStr != "") {
+            consolasStr += "," + c.nombre;
+        } else {
+            consolasStr = c.nombre;
+        }
+    }
+    if (consolasStr == "") consolasStr = "-";
+    tdConsolas.innerHTML = consolasStr;
+
 
     butModificar = document.createElement('button')
     butModificar.setAttribute('class', 'btn btn-link btn-sm');
@@ -131,18 +143,26 @@ const limpiarFormulario = () => {
 
 const butGuardarOnClick = () => {
     const vjNombre = document.getElementById('vj-nombre').value;
-    const vjConsolas = document.getElementById('vj-consolas').value;
+    const vjConsolas = document.getElementById('vj-consolas').selectedOptions;
     const vjPrecio = document.getElementById('vj-precio').value;
+    const vjCategoriaId = document.getElementById('vj-categoria').value;
 
     var body;
     var tipoPeticion;
+
+    const consolas = [];
+    for (var optConsola of vjConsolas) {
+        const consolaId = optConsola.getAttribute("value");
+        consolas.push(consolaId);
+    }
 
     if (videojuegoIdGlobal == null) {
         // Registro de un nuevo recurso
         body = {
             nombre : vjNombre,
-            consolas : vjConsolas,
-            precio : vjPrecio
+            consolas : consolas,
+            precio : vjPrecio,
+            categoriaId : vjCategoriaId
         }
         tipoPeticion = 'POST';
     }else {
@@ -150,8 +170,9 @@ const butGuardarOnClick = () => {
         body = {
             id : videojuegoIdGlobal,
             nombre : vjNombre,
-            consolas : vjConsolas,
-            precio : vjPrecio
+            consolas : consolas,
+            precio : vjPrecio,
+            categoriaId : vjCategoriaId
         }
         tipoPeticion = 'PUT';
     }

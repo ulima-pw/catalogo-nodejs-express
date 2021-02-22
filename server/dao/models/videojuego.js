@@ -33,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     Videojuego.belongsToMany(models.Consola, {
       through : 'Videojuego_Consola',
       as : 'consolas',
-      foreignKey : 'videojuegoId'
+      foreignKey : 'videojuegoId',
+      timestamps : false
     });
   }
 
