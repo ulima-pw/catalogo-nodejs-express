@@ -1,4 +1,4 @@
-const URL_BASE = "http://localhost:3000";
+const URL_BASE = "https://ul2077.herokuapp.com";
 
 const modificarVJOnClick = (event) => {
     const vjid = event.target.getAttribute("vjid");
