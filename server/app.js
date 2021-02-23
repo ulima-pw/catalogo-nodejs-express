@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const data = require('./data');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 4000;
 
 const videojuegoAPI = require('./api/videojuego')
 const categoriaAPI = require('./api/categoria')
