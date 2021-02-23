@@ -1,2 +1,9 @@
 .vscode
 node_modules
+
+postgres://htcjmxdhnhyhfc:e91adc10eecce4598d58f7198520fdeb4b6833172056e126efa8c0ba0d3fbb93@ec2-18-204-74-74.compute-1.amazonaws.com:5432/dcrq4mduqds856
+
+USER: htcjmxdhnhyhfc
+PASS: e91adc10eecce4598d58f7198520fdeb4b6833172056e126efa8c0ba0d3fbb93
+HOST(URL): ec2-18-204-74-74.compute-1.amazonaws.com:5432
+DATABASE: dcrq4mduqds856
