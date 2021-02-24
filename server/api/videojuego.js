@@ -11,6 +11,9 @@ const videojuegoAPI = {
             }
         }).then((videojuegos)=>{
             if (videojuegos[0] != null) {
+
+                // TODO: Agregar las consolas al que pertenece
+                // el videojuego
                 const objRes = {
                     data : {
                         id : videojuegos[0].id,
@@ -82,6 +85,7 @@ const videojuegoAPI = {
         const vjId = vj.id;
     
         // Update en la base de datos
+        // TODO: Falta guardar la categoriaId y las consolas
         db.Videojuego.update({
             nombre : vj.nombre,
             precio : vj.precio,

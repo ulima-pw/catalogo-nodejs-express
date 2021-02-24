@@ -1,23 +1,22 @@
 const URL_BASE = "https://ul2077.herokuapp.com";
 
-const modificarVJOnClick = (event) => {
+const modificarVJOnClick = async (event) => {
     const vjid = event.target.getAttribute("vjid");
     videojuegoIdGlobal = vjid;
     modal.toggle();
-    fetch(`${URL_BASE}/videojuego/${vjid}`, {
+    const resp = await fetch(`${URL_BASE}/videojuego/${vjid}`, {
         method : 'GET'
-    }).then((resp)=> {
-        resp.json().then((data) => {
-            if (data.msg == "") {
-                document.getElementById("vj-nombre").value = data.data.nombre;
-                document.getElementById("vj-consolas").value = data.data.consolas;
-                document.getElementById("vj-precio").value = data.data.precio;
-            }
-        });
-    }).catch((error) => {
-        console.error(error);
-    })
+    });
 
+    //TODO: Obtener consolas del videojuego y modificar el select para que 
+    // se marquen como seleccionadas (modificacion del DOM)
+    const data = await resp.json();
+    if (data.msg == "") {
+        document.getElementById("vj-nombre").value = data.data.nombre;
+        document.getElementById("vj-consolas").value = data.data.consolas;
+        document.getElementById("vj-precio").value = data.data.precio;
+    }
+    
 };
 
 const eliminarVJOnclick = (event) => {
