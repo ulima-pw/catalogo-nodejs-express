@@ -15,7 +15,7 @@ module.exports = {
       {
         nombre : "Demons Soul",
         precio : 30,
-        categoriaId : 1,
+        categoriaId : 7,
         createdAt : new Date(),
         updatedAt : new Date()
       }
