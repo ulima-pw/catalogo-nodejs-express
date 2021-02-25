@@ -135,16 +135,27 @@ const videojuegoAPI = {
         }
     },
 
-    delete : (req, res) => {
+    delete : async (req, res) => {
         const vjId = req.params.id;
 
-        db.Videojuego.destroy({
+        // Eliminar las relaciones de consola y videojuego
+        const videojuegos = await db.Videojuego.findAll({
+            where : {
+                id : vjId
+            }
+        })
+        const consolas = await videojuegos[0].getConsolas();
+        for (var consola of consolas) {
+            await videojuegos[0].removeConsola(consola);
+        }
+
+        // Eliminamos el videojuego (ya no hay relaciones)
+        await db.Videojuego.destroy({
            where : {
                id : vjId
            } 
-        }).then((any) => {
-            res.json({msg : ""});
         });
+        res.json({msg : ""});
     },
 
     getAll : async (req, res) => {
