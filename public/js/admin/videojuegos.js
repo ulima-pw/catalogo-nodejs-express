@@ -1,4 +1,5 @@
-const URL_BASE = "https://ul2077.herokuapp.com";
+//const URL_BASE = "https://ul2077.herokuapp.com";
+const URL_BASE = "http://localhost:4000";
 
 const modificarVJOnClick = async (event) => {
     const vjid = event.target.getAttribute("vjid");
@@ -8,13 +9,27 @@ const modificarVJOnClick = async (event) => {
         method : 'GET'
     });
 
-    //TODO: Obtener consolas del videojuego y modificar el select para que 
-    // se marquen como seleccionadas (modificacion del DOM)
     const data = await resp.json();
     if (data.msg == "") {
+        console.log("videojuego", data.data);
         document.getElementById("vj-nombre").value = data.data.nombre;
-        document.getElementById("vj-consolas").value = data.data.consolas;
         document.getElementById("vj-precio").value = data.data.precio;
+        document.getElementById('vj-categoria').value = data.data.categoriaId;
+
+        // Iterar sobre los options y ver si ellos estan en la lista
+        // que nos ha enviado el servidor
+        const select = document.getElementById('vj-consolas');
+        const options = select.children;
+
+        for (var opt of options) {
+            const consolaId = opt.value;
+
+            for (var consola of data.data.consolas) {
+                if (consola.id == consolaId) {
+                    opt.setAttribute("selected", "true");
+                }
+            }
+        }
     }
     
 };
@@ -136,8 +151,18 @@ const cargarConsolas = async () => {
 
 const limpiarFormulario = () => {
     document.getElementById('vj-nombre').value = "";
-    document.getElementById('vj-consolas').value = "";
     document.getElementById('vj-precio').value = "";
+
+    // Limpiamos categorias
+    const selectCategorias = document.getElementById('vj-categoria');
+    selectCategorias.value = 1;
+
+    // Limpiamos consolas
+    const select = document.getElementById('vj-consolas');
+    const options = select.children;
+    for (var opt of options) {
+        opt.setAttribute("selected", "false");
+    }
 }
 
 const butGuardarOnClick = () => {
@@ -198,6 +223,7 @@ const butGuardarOnClick = () => {
             }
         })
     })
+    videojuegoIdGlobal = null;
 }
 
 // Sea global
