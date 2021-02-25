@@ -2,6 +2,8 @@
 const URL_BASE = "http://localhost:4000";
 
 const modificarVJOnClick = async (event) => {
+    limpiarFormulario();
+
     const vjid = event.target.getAttribute("vjid");
     videojuegoIdGlobal = vjid;
     modal.toggle();
@@ -161,8 +163,9 @@ const limpiarFormulario = () => {
     const select = document.getElementById('vj-consolas');
     const options = select.children;
     for (var opt of options) {
-        opt.setAttribute("selected", "false");
+        opt.removeAttribute("selected");
     }
+    select.selectedOptions = []
 }
 
 const butGuardarOnClick = () => {
@@ -223,7 +226,6 @@ const butGuardarOnClick = () => {
             }
         })
     })
-    videojuegoIdGlobal = null;
 }
 
 // Sea global
@@ -233,7 +235,8 @@ var videojuegoIdGlobal = null;
 const main = () => {
     modal = new bootstrap.Modal(document.getElementById('myModal'));
 
-    document.getElementById('butNuevo').addEventListener("click", () => {        
+    document.getElementById('butNuevo').addEventListener("click", () => { 
+        limpiarFormulario();       
         modal.toggle();
     });
 
