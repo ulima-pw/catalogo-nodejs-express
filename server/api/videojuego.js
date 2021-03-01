@@ -1,4 +1,5 @@
 const db = require('../dao/models')
+const {Op} = require('sequelize')
 
 const videojuegoAPI = {
     get : async (req, res) => {
@@ -159,9 +160,20 @@ const videojuegoAPI = {
     },
 
     getAll : async (req, res) => {
+        var filtroNombre = req.query.nombre;
+
         // Consulta a la bd
+        if (filtroNombre == undefined || filtroNombre == null){
+            filtroNombre = "";
+        }
     
-        const videojuegos = await db.Videojuego.findAll();
+        const videojuegos = await db.Videojuego.findAll({
+            where : {
+                nombre : {
+                    [Op.like] : `%${filtroNombre}%`
+                }
+            }
+        });
 
         const videojuegosResp = [];
         for (var vj of videojuegos) {

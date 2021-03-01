@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node ./server/app.js",
+    "start": "node ./server/app.js",
     "start:dev": "npx nodemon ./server/app.js",
-    "migrate-all" : "npx sequelize db:migrate --config ./server/dao/config/config.json --migrations-path ./server/dao/migrations",
-    "seed" : "npx sequelize db:seed --config ./server/dao/config/config.json --migrations-path ./server/dao/seeders"
+    "migrate-all": "npx sequelize db:migrate --config ./server/dao/config/config.json --migrations-path ./server/dao/migrations",
+    "seed": "npx sequelize db:seed --config ./server/dao/config/config.json --migrations-path ./server/dao/seeders"
   },
   "author": "",
   "license": "ISC",

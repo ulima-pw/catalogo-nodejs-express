@@ -105,8 +105,12 @@ const armarFila = (videojuego) => {
     return tr;
 }
 
-const cargarVideojuegos = () => {
-    fetch(`${URL_BASE}/videojuego`, {
+const cargarVideojuegos = (filtroNombre) => {
+    var urlAEjecutar = `${URL_BASE}/videojuego`;
+    if (filtroNombre != undefined && filtroNombre != null){
+        urlAEjecutar += `?nombre=${filtroNombre}`;
+    }
+    fetch(urlAEjecutar, {
         method : "GET"
     }).then( (res) => {
         res.json().then((data)=> {
@@ -241,6 +245,11 @@ const main = () => {
     });
 
     document.getElementById('butGuardar').addEventListener('click', butGuardarOnClick);
+
+    document.getElementById('but-filtrar').addEventListener('click', ()=>{
+        const filtro = document.getElementById('filtro-nombre').value;
+        cargarVideojuegos(filtro);
+    })
 
     cargarVideojuegos();
     cargarCategorias();
